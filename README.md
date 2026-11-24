@@ -1,27 +1,27 @@
 # AETHER - Autonomous Security Orchestrator
 
-AETHER is a high-fidelity agentic security platform that synthesizes the reasoning of **Gemini 3 Pro** with the live telemetry of the **CrowdStrike Falcon API**. Built on the **Model Context Protocol (MCP)**, it acts as an autonomous security orchestrator, empowering analysts to execute deep forensic audits, trace attack lineages, and enforce network-level containment through an intuitive, technical interface.
+AETHER is a high-fidelity agentic security platform that synthesizes the reasoning of **Gemini 3 Pro** with the live telemetry of the **CrowdStrike Falcon API**. Using an **MCP-style tool interface** (an in-process tool server modeled on the Model Context Protocol's list/call pattern), it acts as an autonomous security orchestrator, empowering analysts to execute deep forensic audits, trace attack lineages, and enforce analyst-approved network containment through an intuitive, technical interface.
 
 ### Key Features
 * **Deep Forensic Audits**: Execute comprehensive analyses of incidents and alerts.
-* **Attack Lineage Tracing**: Track and visualize the progression of potential threats.
-* **Network-Level Containment**: Enforce immediate containment actions at the kernel level.
+* **Attack Lineage Tracing**: Correlate incidents, detections, and host details into a written timeline of how a threat progressed.
+* **Network-Level Containment**: Isolate hosts via the Falcon API (sensor-enforced network containment) after analyst approval.
 * **Live Telemetry Synthesis**: Combines CrowdStrike Falcon API data with Gemini 3 Pro reasoning.
-* **MCP-Native Orchestration**: Seamless integration of high-stakes reasoning with raw data ingestion.
+* **MCP-Style Orchestration**: Falcon operations are exposed to Gemini through an MCP-style list/call tool interface.
 
 ---
 
 ### Tech Stack
 *   **Frontend**: React 19, Tailwind CSS
 *   **Cognitive Engine**: Google Gemini 3 Pro (via `@google/genai`)
-*   **Orchestration**: Model Context Protocol (MCP)
+*   **Orchestration**: MCP-style in-process tool server (modeled on the Model Context Protocol)
 *   **Security Integration**: CrowdStrike Falcon REST API (OAuth2)
 *   **Documentation**: Markdown, Mermaid.js, JetBrains Mono
 
 ---
 
 ### System Architecture
-AETHER utilizes a four-tier decoupled architecture powered by the **Model Context Protocol (MCP)** to ensure that high-stakes reasoning is isolated from raw telemetry ingestion.
+AETHER utilizes a four-tier decoupled architecture with an **MCP-style tool layer** (an in-process `CrowdStrikeMCPServer` class modeled on the Model Context Protocol, not a separate MCP transport) to ensure that high-stakes reasoning is isolated from raw telemetry ingestion.
 
 ```mermaid
 graph TD
@@ -36,7 +36,7 @@ graph TD
     end
 
     subgraph "MCP Infrastructure"
-        MCPServer[CrowdStrike MCP Server]
+        MCPServer[CrowdStrike MCP-style Tool Server]
     end
 
     subgraph "Integration Layer"
@@ -49,7 +49,7 @@ graph TD
     Agent <--> MCPServer
     MCPServer <--> CSService
 ```
-<p align="center"><b>Figure 1: MCP-Native System Architecture Overview</b></p>
+<p align="center"><b>Figure 1: MCP-Style System Architecture Overview</b></p>
 
 ---
 
